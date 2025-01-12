@@ -32,7 +32,8 @@ The **File** menu contains many of the normal file-operation actions found in mo
 - **Save As**: Saves the current document to the filesystem, prompting for the new filename to use.
     - If the document had previously been saved to a file, this will create as new copy of the file, and Notepad++ will continue working with the document associated with the new file, leaving the old file with the contents that were last saved.
 - **Save a Copy As**: Saves the current document to the filesystem, prompting for the new filename to use.
-    - The new file will be saved, but Notepad++ will continue to work with the document associated with the original filename.  So this action effectively creates a backup of the file, but allows you to continue working with the previous file, whereas **Save As** uses the original as the back and allows you to keep working with the new file.
+    - The new file will be saved, but Notepad++ will continue to work with the document associated with the original filename.  So this action effectively creates a backup of the file, but allows you to continue working with the previous file, whereas **Save As** uses the original as the backup and allows you to keep working with the new file.
+    - Normally during execution of this command, the new file created is not opened into a Notepad++ editing tab. To open the new file as part of the process, hold down the <kbd>Shift</kbd> key while pressing the **Save** button in the **Save As** dialog.
 - **Save All**: Saves all documents that are currently open in either of Notepad++'s two Views.
 - **Rename**: Prompts for a new name to give to the current document.
     - If the document is associated with a file, Notepad++ will open a standard Windows dialog to save the file under a new name on the filesystem, and the old filename will no longer exist.
@@ -43,6 +44,7 @@ The **File** menu contains many of the normal file-operation actions found in mo
     - If there are multiple files that you are prompted for, you will also get **Yes to All** to save all changed files, and **No to All** to lose changes from all changed files.
 - **Close Multiple Documents >**:
     - **Close All but Active Document**: Closes all open documents, except the document that is actively being edited.
+    - **Close All but Pinned Documents**: Closes all open documents, unless their tab has been pinned.
     - **Close All to the Left**: Closes all the open documents that are to the left of the active document on the current View's tab bar.
     - **Close All to the Right**: Closes all the open documents that are to the right of the active document on the current View's tab bar.
     - **Close All Unchanged**: Closes all open documents that have not been edited since they were last opened or created.
@@ -60,6 +62,12 @@ The **File** menu contains many of the normal file-operation actions found in mo
 - **Exit**: Closes the Notepad++ application.
     - If you have [**Settings > Preferences > Backup**]() `☑ Remember current session for next launch` checkmarked, Notepad++ will save the current list of files to the session.  The only files that will be remembered for the next launch of Notepad++ will be those files that are currently open in Notepad++.
     - If you do not have [**Settings > Preferences > Backup**]() `☐ Enable session snapshot and periodic backup` checkmarked, Notepad++ will prompt you whether to save any files that have been changed, following the same rules as **Close All**, described above.  If you do have that setting checkmarked, unsaved documents will also be included in the session file even if they don't have an underlying file.
+
+### File-Type Filters
+
+For the **Save As** and similar dialogs, there is a **Save as Type** pulldown field.  For the **Open** dialog (and similar), there is a pulldown file-type field to the right of the **File name** entry.  Those pulldowns serve to filter the list of files in the dialog based on the file type.  The filter's list of file types will include all of the languages in the [**Language** menu](../programing-languages/) and the extensions for those types, as defined in the [Style Configurator](../preferences/#style-configurator)). Starting in v8.7, the filter will also include the various [User Defined Language](../user-defined-language-system/) file types and extensions as well.
+
+For the **Save As** dialog, the `☐ Append extension checkbox` described in the [Preference Toggles in Other Dialogs](preferences/#preference-toggles-in-other-dialogs) will allow the dialog to automatically add the _first_ extension in the list for the active filter.  If you want a different extension for that type, or if that option is not checkmarked, you can always type the filename with extension to explicitly define the extension you want for the file you are currently saving.  (So normally, doing **Save As** filtered for C++ will automatically add the `.cpp` extension; but if you want it to be `.cxx` or `.h`, you can just type that as part of the **File name** entry rather than letting Notepad++ auto-append the extension.)
 
 ## Printing
 

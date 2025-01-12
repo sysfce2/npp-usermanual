@@ -3,12 +3,33 @@ title: Editing
 weight: 10
 ---
 
+## Caret and Cursor
+
+When editing in Notepad++, the insertion point in the editing window where your text will be typed is called the "caret", and is indicated by either a vertical bar or a box around the insertion location, depending on [Caret settings](../preferences/#editing-1). This is separate from the mouse cursor, which is the graphical pointer that moves freely as you move your mouse, not limited to the editing window, and can be used for changing the caret location and for interacting with the rest of the user interface. (Some also call the "caret" the "typing cursor" or "[text insertion/selection cursor](https://en.wikipedia.org/wiki/Caret_navigation)" or sometimes just the "cursor".  The name "caret" comes from the "[proofreader's caret](https://en.wikipedia.org/wiki/Caret_(proofreading))" `‸` or `^`, which is used to indicate where text needs to be inserted in a manuscript. The Notepad++ user interface and this manual both try to disambiguate the two by using "caret" for the typing cursor and "cursor" for the mouse cursor.)
+
+## Typing Mode
+
+As with many other text editors and other Windows applications, Notepad++ allows two different typing modes: "insertion mode" and "overwrite mode".
+- In insertion mode, text is typed at the position of the caret, and any characters that came after the caret remain after the caret.  For example: if you had `ab‸cd` (where `‸` indicates the typing caret, not the literal `‸` character), then typing `xyz` would end up with `abxyz‸cd`.
+- In overwrite mode, also known as "type over mode", text is typed at the position of the caret, and any characters that came after the caret will be overwritten.  For example: if you had `ab‸cd` (where `‸` indicates the typing caret, not the literal `‸` character), then typing `xyz` would end up with `abxyz‸`, with the `cd` no longer being there.
+
+While in insertion mode, the caret-position indicator will be either a vertical bar (like `|`) or a shaded box (like `▒`), depending on [**Settings > Preferences > Editing 1 > Caret Settings**](../preferences/#editing-1).  When in overwrite mode, the caret-position indicator will be an underline (like `_`).  The speed of the blinking for the caret-position indicator can also be set in the same preferences section.
+
+To toggle between insertion mode and overwrite mode, use the <kbd>Insert</kbd> key on your keyboard.  Alternatively, if the [Status Bar](../user-interface/#status-bar) is not hidden using **[Settings > Preferences > General](../preferences/#general) > Status Bar > `☐ Hide`**, one field in the Status Bar will show `INS` or `OVR` to indicate the typing mode, and clicking on that indicator will toggle the mode.
 
 ## Selection modes & Column Editor
 
-Notepad++ has two modes for selecting text:  stream selection and column-mode selection.
+Notepad++ has two modes for selecting text: stream selection and column mode selection.
 
-Normally when you select text by <kbd>LeftClick+Drag</kbd> with the mouse, or <kbd>Shift+Arrow</kbd> key commands, you make what is called a stream selection.  In this mode, the text that is selected is contiguous, left-to-right, top-to-bottom.  There is another mode of selection called column mode that you can enter in order to select text that isn't contiguous horizontally, but rather vertically.  Column mode is also referred to as column-block, rectangular selection, or rectangular block selection.
+Normally when you select text by <kbd>LeftClick+Drag</kbd> with the mouse, or <kbd>Shift+Arrow</kbd> key commands, you make what is called a stream selection.  In this mode, the text that is selected is contiguous, left-to-right, top-to-bottom.  There is another mode of selection called column mode that you can enter in order to select text that isn't contiguous horizontally, but rather vertically; column mode is also referred to as column-block, rectangular selection, or rectangular block selection, because it makes a rectangle of selected text.
+
+Most users are accustomed to stream selection mode, because it behaves similarly to other applications.  But to clarify _exiting_ stream selection: If you have a stream selection, and click in the text (whether inside or outside the current selection) without using the <kbd>Ctrl</kbd> or <kbd>Shift</kbd> modifiers, then you will no longer have a stream selection, and your typing [caret](#caret-and-cursor "typing/insertion cursor") will move to wherever in the text that you clicked; similarly, using the keyboard to arrow or <kbd>PageUp</kbd>/<kbd>PageDown</kbd> away from the text, you will no longer have a stream selection, and your typing [caret](#caret-and-cursor "typing/insertion cursor") will move as appropriate for the movement key you used.  Either way, if you made your selection from left-to-right, then the typing [caret](#caret-and-cursor "typing/insertion cursor") will end up on the right side of the old selection when you exit selection mode; similarly, if you made your selection from right-to-left, the typing [caret](#caret-and-cursor "typing/insertion cursor") will end up on the left side of the old selection when you exit selection mode.
+
+Whether you are in Column-Mode selection, or have a multiple-stream selection using Multi-Edit, the row or sub-selection that was added to the selection most-recently will be considered the "main selection"; certain actions (like the [**Edit > Blank Operations > Trim ...**](#edit) actions, below) will only work on the "main selection" instead of the whole selection; as of v8.6, **[Global Styles](/preferences/#global-styles) > Multi-selected text colour** and **Multi-edit carets colour** were added, so the earlier portions of the selection will use those colors, whereas the "main selection" will use the original **Selected text colour** and **Caret colour** -- so setting those text colours to different colours will help you quickly tell whether the selection is the "main selection" or one of the other portions of the multi-select or column selection.
+
+The next sub-sections will provide more detail for the Column Mode selection, as that is the mode that needs more clarification for users unaccustomed to rectangular selection.
+
+### Entering Column Mode
 
 On the **Edit** menu is an entry **Column Mode** which when executed opens a text box window that explains the basics of column mode selection of text:
 
@@ -18,21 +39,29 @@ There are 3 ways to switch to column-select mode:
 
 2. (Keyboard only)  Hold Alt+Shift while using arrow keys
 
-3. (Keyboard or Mouse)  Put caret at desired start of column block position, then execute the **Begin/End Select in Column Mode** command; move caret to desired end of column block position, then execute the **Begin/End Select in Column Mode** command again.
+3. (Keyboard or Mouse)  Put [caret](#caret-and-cursor "typing/insertion cursor") at desired start of column block position, then execute the **Begin/End Select in Column Mode** command; move [caret](#caret-and-cursor "typing/insertion cursor") to desired end of column block position, then execute the **Begin/End Select in Column Mode** command again.
 
-Truly, other ways to enter column-mode exist, e.g. try Alt+Shift+PageDown, but knowing the intricacies of these -- what works and what doesn't -- takes some really specialized knowledge.
-
-As soon as you make a caret movement that doesn't intentionally keep you in column mode, your selection mode returns to the stream selection mode.  Similarly, if in stream mode, and you perform a caret movement that doesn't keep you selecting text, your stream selection will end and no text will be selected.
+Other ways to enter column-mode exist, e.g. try Alt+Shift+PageDown, but knowing the intricacies of these -- what works and what doesn't -- takes some practice on the part of the user.
 
 When column-selecting with the mouse, once you stop making a column mode selection by letting up on the mouse's left click button, the only way to then alter the shape of the rectangular selection is with the keyboard (<kbd>Alt+Shift+Arrows</kbd>).
 
-Animation of using <kbd>Alt+LeftClick+Drag</kbd> or <kbd>Alt+Shift+Arrows</kbd> to make a selection in column mode:
+To help you understand, here is an animation of using <kbd>Alt+LeftClick+Drag</kbd> or <kbd>Alt+Shift+Arrows</kbd> to make a selection in column mode:
 
 ![](../images/columnMode.gif)
 
+### Leaving Column Mode
+
+As soon as you make a [caret](#caret-and-cursor "typing/insertion cursor") movement that doesn't intentionally keep you in column mode, your selection mode returns to the stream selection mode (such as hitting an arrow key without also holding <kbd>Alt+Shift</kbd>).  Alternatively, hitting the <kbd>Esc</kbd> key will also leave Column Mode.
+
+When you do leave Column Mode, the typing [caret](#caret-and-cursor "typing/insertion cursor") will be at the last corner of your selection. Thus, if you made your column selection from upper left to lower right of the rectangle, the [caret](#caret-and-cursor "typing/insertion cursor") will be in the lower right after you leave Column Mode; if you did your column selection from upper right to lower left, the [caret](#caret-and-cursor "typing/insertion cursor") will be in the lower left; if you do the column selection from lower left to upper right, then the [caret](#caret-and-cursor "typing/insertion cursor") will end up in the upper right; and if you do the column selection from lower right to upper left, then the [caret](#caret-and-cursor "typing/insertion cursor") will end up in the upper left.
+
+### Editing In Column Mode
+
 In column mode, typing will type the same thing in all the rows of the column.  If you copy/cut in column mode, then you copy/cut a rectangle of text, which can be pasted over an identical-sized rectangle elsewhere, or pasted into a separate document or separate application.  This is implemented for making working with rectangles of text (instead of whole lines of text) more convenient.
 
-In column mode selection, when text is copied/cut, artificial line-ending characters are introduced into the text.  Thus, pasting in column mode can sometimes lead to surprising results, especially when you simply want the text inserted as if it isn't a column block.  Example: You copy a column block that spans 10 lines and then move the caret to column 1 on an empty line in your document and perform the paste.  The first line of the data from the paste ends up fine, but for the remaining lines, the paste has pushed existing text on subsequent lines to the right before inserting the new columns.  The solution here is to first (before the paste), use the Enter key to insert enough blank lines in the document so that the paste won't do this.
+In column mode selection, when text is copied/cut, artificial line-ending characters are introduced into the text.  Thus, pasting in column mode can sometimes lead to surprising results, especially when you simply want the text inserted as if it isn't a column block.  Example: You copy a column block that spans 10 lines and then move the [caret](#caret-and-cursor "typing/insertion cursor") to column 1 on an empty line in your document and perform the paste.  The first line of the data from the paste ends up fine, but for the remaining lines, the paste has pushed existing text on subsequent lines to the right before inserting the new columns.  The solution here is to first (before the paste), use the Enter key to insert enough blank lines in the document so that the paste won't do this.
+
+### Column Editor Dialog
 
 The Column Editor dialog, accessed via **Edit > Column Editor**, allows you to insert text or numbers in every row of the active Column Mode selection:
 
@@ -50,22 +79,22 @@ The Column Editor dialog, accessed via **Edit > Column Editor**, allows you to i
         ![](../images/colEdit-LeadingNone.png) | ![](../images/colEdit-LeadingZeros.png) | ![](../images/colEdit-LeadingSpaces.png)
         _examples shown with **View > Show Symbol > Show Spaces and Tab** to make the leading spaces obvious._
 
-        (Prior to v8.5.2, the only option was a checkbox for **☐ Leading zeros**, so unchecked was equivalent to "None" and checkmarked was equivalent to "Zeros")
+        (Prior to v8.5.2, the only option was a checkbox for **☐ Leading zeros**, so unchecked was equivalent to "None" and checkmarked was equivalent to "Zeros")
 
     * **Format** chooses between **Dec** (0-9), **Hex** (0-9,A-F), **Oct** (0-7), or **Bin** (0-1).
         _Note_: the numerical boxes above are always in decimal, even if a different format is chosen for display.  (Example: to get `F`-`1F`, column-select 17 rows and set the initial number to `15` -- it will not allow `F`.)
 
 ## Multi-Editing
 
-Multi-Editing mode (available via mouse usage only) allows you to make multiple carets by using <kbd>Ctrl+Click</kbd> for each additional caret.  This allows performing the same editing actions (typing, copy/cut/paste/delete, arrowing through the text) in multiple locations, even if they aren't lined up in a nice column, or even if there are lines between the carets that you don't want to affect.  You may place as many additional carets as you want.
+Multi-Editing mode (available via mouse usage only) allows you to make multiple [caret](#caret-and-cursor "typing/insertion cursor")s by using <kbd>Ctrl+Click</kbd> for each additional [caret](#caret-and-cursor "typing/insertion cursor").  This allows performing the same editing actions (typing, copy/cut/paste/delete, arrowing through the text) in multiple locations, even if they aren't lined up in a nice column, or even if there are lines between the [caret](#caret-and-cursor "typing/insertion cursor")s that you don't want to affect.  You may place as many additional [caret](#caret-and-cursor "typing/insertion cursor")s as you want.
 
-In addition to placing additional carets, you may also make multiple selections.  After making an initial selection, do a `Ctrl+Click+Drag` operation to place a second selection in another location.  You may create as many such selections as you'd like.  A primary use for this type of selection might be so that you can copy several selections with one command, or to replace multiple selections with the same content if you begin typing or do a paste.
+In addition to placing additional [caret](#caret-and-cursor "typing/insertion cursor")s, you may also make multiple selections.  After making an initial selection, do a <kbd>Ctrl+Click+Drag</kbd> operation to place a second selection in another location.  You may create as many such selections as you'd like.  A primary use for this type of selection might be so that you can copy several selections with one command, or to replace multiple selections with the same content if you begin typing or do a paste.
 
-Starting in v8.6.1, if you <kbd>Ctrl+Click</kbd> at a previous multi-caret location, or <kbd>Ctrl+Click</kbd> within a previous multi-selection region, that caret or selection region will be removed, while leaving other portions of your multi-selection still active.  (This effectively allows you to "undo" a _portion_ of the multi-selection without having to redo everything, and is useful in complex multi-selections when you accidentally <kbd>Ctrl+Clicked</kbd> in the wrong place or changed your mind.)
+Starting in v8.6.1, if you <kbd>Ctrl+Click</kbd> at a previous multi-[caret](#caret-and-cursor "typing/insertion cursor") location, or <kbd>Ctrl+Click</kbd> within a previous multi-selection region, that [caret](#caret-and-cursor "typing/insertion cursor") or selection region will be removed, while leaving other portions of your multi-selection still active.  (This effectively allows you to "undo" a _portion_ of the multi-selection without having to redo everything, and is useful in complex multi-selections when you accidentally <kbd>Ctrl+Clicked</kbd> in the wrong place or changed your mind.)
 
 Multi-Editing mode is only available when stream selection(s) are active; it doesn't work in conjunction with column-block selection.  Unlike stream selections, where with Multi-editing you can define two or more selections simultaneously, with column mode there can be only one active selection at a time.
 
-Before v8.6, whether or not you can use Multi-Editing mode was determined by the [**Settings > Preferences > Editing > ☑ Enable Multi-Editing (Ctrl+Mouse click/selection)**](../preferences/#editing-2) checkbox: with it checkmarked, <kbd>Ctrl+Click</kbd> will add caret locations; with it not checkmarked, Multi-Editing is disabled.  In v8.6 - v8.6.2, Multi-Editing is always on, and that option was been removed; starting in v8.6.3, that option was returned, but is now at [**Settings > Preferences > Editing 2 > ☑ Enable Multi-Editing (Ctrl+Mouse click/selection)**](../preferences/#editing-2).
+Before v8.6, whether or not you can use Multi-Editing mode was determined by the [**Settings > Preferences > Editing > ☑ Enable Multi-Editing (Ctrl+Mouse click/selection)**](../preferences/#editing-2) checkbox: with it checkmarked, <kbd>Ctrl+Click</kbd> will add [caret](#caret-and-cursor "typing/insertion cursor") locations; with it not checkmarked, Multi-Editing is disabled.  In v8.6 - v8.6.2, Multi-Editing is always on, and that option was been removed; starting in v8.6.3, that option was returned, but is now at [**Settings > Preferences > Editing 2 > ☑ Enable Multi-Editing (Ctrl+Mouse click/selection)**](../preferences/#editing-2).
 
 Starting in v8.6, Multi-Edit became the default, and was significantly enhanced.  The [Multi-Editing HowTo](#multi-editing-howto) (below) gives a tutorial in how to use this improved feature, including the new [**Edit** menu](#edit-menu) **...Multi-Select...** commands.
 
@@ -113,7 +142,7 @@ You can assign any available shortcut to **Multi-Select Next > Match Case Only**
 ![image](https://github.com/notepad-plus-plus/notepad-plus-plus/assets/90293/0ac09902-0abb-4b11-8c83-bfdaa0b1c69b)
 
 #### Step 4
-Type <kbd>DELETE</kbd> twice and then <kbd>ENTER</kbd> once, then <kbd>ArrowUp</kbd> to move all carets up.
+Type <kbd>DELETE</kbd> twice and then <kbd>ENTER</kbd> once, then <kbd>ArrowUp</kbd> to move all [caret](#caret-and-cursor "typing/insertion cursor")s up.
 
 ![image](https://github.com/notepad-plus-plus/notepad-plus-plus/assets/90293/de872b16-6b18-42cf-b993-93cb7370be63)
 
@@ -124,7 +153,7 @@ Type `obj.`
 ![image](https://github.com/notepad-plus-plus/notepad-plus-plus/assets/90293/5f960695-a0d8-4f40-93b6-8eee3e164bba)
 
 #### Step 6
-Use <kbd>Ctrl+ArrowRight</kbd> to move the carets to the end of the words.
+Use <kbd>Ctrl+ArrowRight</kbd> to move the [caret](#caret-and-cursor "typing/insertion cursor")s to the end of the words.
 
 ![image](https://github.com/notepad-plus-plus/notepad-plus-plus/assets/90293/56aee7fc-cdc7-4603-9332-a9148ae882ef)
 
@@ -135,8 +164,8 @@ Type ` = param[""]`
 
 
 #### Step 8
-Put your caret after `obj.` of the 1st line, the <kbd>Alt+Shift+ArrowDown</kbd> to the last line.
-(Or you can use <kbd>Ctrl+ArrowLeft</kbd> to move carets after `obj.` column.)
+Put your [caret](#caret-and-cursor "typing/insertion cursor") after `obj.` of the 1st line, the <kbd>Alt+Shift+ArrowDown</kbd> to the last line.
+(Or you can use <kbd>Ctrl+ArrowLeft</kbd> to move [caret](#caret-and-cursor "typing/insertion cursor")s after `obj.` column.)
 
 ![image](https://github.com/notepad-plus-plus/notepad-plus-plus/assets/90293/d92f4e4a-1cd4-40c5-9990-43136db901f3)
 
@@ -147,7 +176,7 @@ Use <kbd>Ctrl+Shift+ArrowRight</kbd> to multi-select the words, then copy them (
 ![image](https://github.com/notepad-plus-plus/notepad-plus-plus/assets/90293/abecd307-10ef-4ebb-b0fd-3670bbde9aed)
 
 #### Step 10
-Move all carets to right by using <kbd>ArrowRight</kbd> to between `""`, then paste (<kbd>Ctrl+V</kbd>).
+Move all [caret](#caret-and-cursor "typing/insertion cursor")s to right by using <kbd>ArrowRight</kbd> to between `""`, then paste (<kbd>Ctrl+V</kbd>).
 
 ![image](https://github.com/notepad-plus-plus/notepad-plus-plus/assets/90293/5e91706b-96fe-4adb-80c1-6fb2aaf1d6f9)
 
@@ -170,6 +199,12 @@ The cloned document is the same document as its original one, but with the separ
 ![](../images/clonedDoc.gif)
 
 You can find more on cloning to other views or instances in the [Views > Move / Clone](../views/#move-clone) section, and more on manipulating tabs through the tab bar in [Other Resources > Tabs](../other-resources/#tabs).
+
+## Virtual Space
+
+When editing a text document in Notepad++, there is potentially a blank area beyond the end of each line, which has no characters (not even space characters), because it's past the end-of-line characters.  By default, if you tried to click in that empty space, the [caret](#caret-and-cursor "typing/insertion cursor") (typing cursor) would move to the end of the line, instead of being placed where you clicked.  However, if you enabled **[Settings > Preferences > Editing 1](../preferences/#editing-1) > `☐ Enable virtual space`**, then if you clicked in that empty space, Notepad++ would place the [caret](#caret-and-cursor "typing/insertion cursor") there, beyond the end of the line; if you then typed some text, Notepad++ would fill the empty space between the end of the line and the [caret](#caret-and-cursor "typing/insertion cursor") with spaces, and the text you typed would go after those spaces.  (The Virtual Space feature was added in Notepad++ v8.4.3, so if you have an older Notepad++, you would need to upgrade to use this feature.)
+
+This Virtual Space feature, however, does not influence blank space beyond the last line of the document: if you have fewer lines on your document than your screen allows, or if you enabled **[Settings > Preferences > Editing 1](../preferences/#editing-1) > `☐ Enable scrolling beyond last line`**, there could be empty space visible below the last numbered line in the Notepad++ document.  However, whatever the state of the Virtual Space option, if you click in the empty space below the last line, the [caret](#caret-and-cursor "typing/insertion cursor") will just go to the last line, and you cannot access any Virtual Space there -- so you cannot click a few lines below the end and start typing, and have Notepad++ fill in with blank lines or spaces. (You could, however, just hit <kbd>Enter</kbd> from the end of the last line, and you will then be able to continue your document into what used to be empty space.)
 
 ## Character Panel
 
@@ -208,7 +243,7 @@ The top of the **Edit** menu features typical editing commands which any Windows
 * **Redo** - if **Undo** was executed previously, this will reinstate the change(s) previously undone; may be executed multiple times
 * **Cut** - will remove any selected text from the document and place it on the Windows clipboard
 * **Copy** - will put a copy of any selected text on the Windows clipboard; document content is unaltered
-* **Paste** - if the Windows clipboard contains text, this will insert a copy of that text at the point of the caret; if text is selected when this command is executed, the selected text will be replaced by the text from the clipboard; if the clipboard does not contain text, nothing will happen
+* **Paste** - if the Windows clipboard contains text, this will insert a copy of that text at the point of the [caret](#caret-and-cursor "typing/insertion cursor"); if text is selected when this command is executed, the selected text will be replaced by the text from the clipboard; if the clipboard does not contain text, nothing will happen
 * **Delete** - will remove any selected text from the document
 * **Select All** - selects all text in the document into a stream selection
 
@@ -219,7 +254,7 @@ Below the common editing commands are two that (each) allow text to be selected 
 
 Normally text selection is a dedicated process -- once a selection is started, the only thing you can do is to complete it, before moving on to other actions.  But sometimes it is useful to do other things, in particular document navigation actions, between defining the starting point of a selection and actually bringing the selection into existence.
 
-The **Begin/End Select** commands are useful when making huge selections of text; rather than holding Shift while using arrow keys or the mouse to select text, and be at the mercy of the system scroll speed as you watch the viewport scroll interminably to locate the far-away ending point for the selection you started, you can use the **Begin/End Select** feature.  Execute **Begin/End Select** once to set a starting point of a future selection, then use a caret movement command(s) (example: Ctrl+End to move quickly to the end of a document), and finally run **Begin/End Select** a second time to create a text selection between the two far-away document positions.
+The **Begin/End Select** commands are useful when making huge selections of text; rather than holding Shift while using arrow keys or the mouse to select text, and be at the mercy of the system scroll speed as you watch the viewport scroll interminably to locate the far-away ending point for the selection you started, you can use the **Begin/End Select** feature.  Execute **Begin/End Select** once to set a starting point of a future selection, then use a [caret](#caret-and-cursor "typing/insertion cursor") movement command(s) (example: Ctrl+End to move quickly to the end of a document), and finally run **Begin/End Select** a second time to create a text selection between the two far-away document positions.
 
 After you use **Begin/End Select** the first time to set the starting point, the menu item for the command will appear "checkmarked" to let you know that you have started the process, and need to execute the command a second time to define the selection end point and show the text as selected.
 
@@ -252,14 +287,14 @@ Below the **Begin/End Select** entries, there are a number of sub-menus to the *
         * **Remove Consecutive Duplicate Lines**: will only remove duplicates that are on the lines immediately following the first instance (still keeping the first instance); acts upon the line set spanned by the current selection, or the entire file if no active selection
         * NOTE: Duplicates removal is performed with the assumption that all line-endings in the file are uniform and match the current selection for the file being edited -- the quickest way to check that selection is to glance at the status bar, where the current line-ending type is shown either as `Windows (CR LF)`, `Unix (LF)` or `Macintosh (CR)`.  It might be desirable to check the line-ending types in your file before executing a sorting operation, and use the **Edit > EOL Conversion >** choices or right-click on the Status Bar's EOL indicator to fix the line endings if necessary.
     * There are methods for splitting lines and joining lines together:
-        * **Split Lines**: will insert a line-ending into a long line(s): if there is one or more [Vertical Edge](../preferences/#margins-border-edge) value specified, it will split at the right-most Vertical Edge; otherwise, it will split at the current size of the editor window.  It operates on the lines spanned by the current stream selection or the single line of the caret if no stream selection is currently active.
+        * **Split Lines**: will insert a line-ending into a long line(s): if there is one or more [Vertical Edge](../preferences/#margins-border-edge) value specified, it will split at the right-most Vertical Edge; otherwise, it will split at the current size of the editor window.  It operates on the lines spanned by the current stream selection or the single line of the [caret](#caret-and-cursor "typing/insertion cursor") if no stream selection is currently active.
         * **Join Lines**: will combine the lines touched by the active stream selection by replacing line-endings with a single space character. It requires an active stream selection that spans two or more lines.
     * There are commands for removing lines
         * **Remove empty lines**: will remove all lines containing no characters from the entire document
         * **Remove empty lines (Containing Blank characters)**: will remove all lines containing no characters from the entire document; if a line contains only space or tab characters that line will be removed as well
     * There are commands for changing the order of existing lines:
-        * **Move Up Current Line**: will swap the current line with the line above it, effectively moving the line of the caret up one row in the document; if a selection spanning lines is active upon invocation, it will move those lines touched by the selection up as a group
-        * **Move Down Current Line**: will swap the current line with the line below it, effectively moving the line of the caret down one row in the document; if a selection spanning lines is active upon invocation, it will move those lines touched by the selection down as a group
+        * **Move Up Current Line**: will swap the current line with the line above it, effectively moving the line of the [caret](#caret-and-cursor "typing/insertion cursor") up one row in the document; if a selection spanning lines is active upon invocation, it will move those lines touched by the selection up as a group
+        * **Move Down Current Line**: will swap the current line with the line below it, effectively moving the line of the [caret](#caret-and-cursor "typing/insertion cursor") down one row in the document; if a selection spanning lines is active upon invocation, it will move those lines touched by the selection down as a group
         * **Reverse Line Order**: will take the selected lines (or all of the lines of the current document if no active selection) and will order them reversely (i.e. flipped) from their existing order (added in v8.0.0)
         * **Randomize Line Order**: will take the selected lines (or all of the lines of the current document if no active selection) and place them in an unpredictable order
     * There are a variety of sorting algorithms:
@@ -270,25 +305,49 @@ Below the **Begin/End Select** entries, there are a number of sub-menus to the *
             * The sequence `10` will sort before `2`, because it sorts character-by-character of each collection of characters, and the character `1` comes before the character `2`
         * **Ignoring case** means that lowercase `a` will sort the same as uppercase `A`, and both will come before either `Z` or `z`
         * **As Integers** means that `10` will sort as being bigger than `2`
+            - Note that sorting as integers will sort IP addresses (like `192.168.0.1` and `8.8.8.8`) reasonably (as `8.8.8.8` before `192.168.0.1`).
+            - Note that if you have the same non-numeric prefixes on your numbers (like `xyz9` and `xyz11`), it will sort the numeric portion as integers.
+            - Note that if you have right-aligned numbers, with leading spaces before numbers of different lengths, the spaces will change the ordering from what you expect:
+                ```
+                   1
+                  10
+                 100
+                1000
+                ```
+                will be sorted as
+                ```
+                 100
+                  10
+                   1
+                1000
+                ```
+                because integers prefixed by spaces come before integers without spaces (because spaces are lexicographically earlier than digits; in this example, that means `1000` is last, because it had no space prefix), but integers prefixed with one space will be sorted before integers prefixed with two spaces.
         * **As Decimals (Comma)** means it will recognize `10,234` and `9,876` as decimal numbers and sort them numerically
         * **As Decimals (Dot)** means it will recognize `10.234` and `9.876` as decimal numbers and sort them numerically
         * NOTE: Sorting is performed with the assumption that all line-endings in the file are uniform and match the current selection for the file being edited -- the quickest way to check that selection is to glance at the status bar, where the current line-ending type is shown either as `Windows (CR LF)`, `Unix (LF)` or `Macintosh (CR)`.  It might be desirable to check the line-ending types in your file before executing a sorting operation, and use the **Edit > EOL Conversion >** choices or right-click on the Status Bar's EOL indicator to fix the line endings if necessary.
         * NOTE: If a [Column Mode](./#selection-modes-column-editor) selection is active, the sort will re-order all the lines included in the selection, but the sort key (the text that decides the sort order) will be limited to what is inside the column selection. This column-selection-based sort will be a "stable sort": if the keys are identical on two lines, then the order of those two lines will not change, even if text outside of the selected key columns is different.
-* **Comment/Uncomment >** ⇒ submenu with actions that add or remove comment syntax, based on the file's **Language** selection.  This makes use of the `commentLine`, `commentStart`, and `commentEnd` attributes of the active Language as defined in [langs.xml](../config-files/#keyword-lists-langsxml) to define the characters to use for making or clearing line comments (`commentLine`) and block comments (`commentStart` and `commentEnd`).
+* **Comment/Uncomment >** ⇒ submenu with actions that add or remove comment syntax, based on the file's **Language** selection.
+  This makes use of the `commentLine`, `commentStart`, and `commentEnd` attributes of the active Language as defined in [langs.xml](../config-files/#keyword-lists-langsxml) to define the characters to use for making or clearing line comments (`commentLine`) and block comments (`commentStart` and `commentEnd`):
+    - The **Single line** comment commands all use the string defined as `commentLine` as the prefix for each commented line.
+    - The **Block Comment/Uncomment** commands put the `commentStart` string before the selected text, and the `commentEnd` string after the selected text.
+      If the `commentStart` and `commentEnd` attributes are not defined, the **Block** commands will instead individually prefix each line of the block with the `commentLine` string.
+    - Some languages have multiple block comment syntaxes, but Notepad++'s **Comment/Uncomment** commands can only implement one.  You can edit your `langs.xml` to define the strings that _you_ want to use.
+    - If your language currently is missing one or more of those attributes in the `langs.xml`, you can edit `langs.xml` following the advice in ["Editing Configuration Files"](../config-files/#editing-configuration-files) and add in those attributes for your language; after saving and restarting Notepad++, the **Comment/Uncomment** commands will use the strings you defined.
 * **Auto-Completion >** ⇒ submenu with actions that manually trigger [auto-completion](../auto-completion/) of function name, word, function parameter, and pathname.  While the automatic completion is affected by [**Preferences > Auto-Completion** settings](../preferences/#auto-completion) for setting minimum number of characters, and enabling which of the completions happen automatically, when you manually trigger one of the auto-completion actions through this menu or keyboard shortcut equivalents, completion will happen regardless of those settings (so you can manually trigger when there's fewer characters than the auto-trigger threshold, or you can manually trigger function completion when only word completion is active).
 * **EOL Conversion >** ⇒ submenu with actions that convert line endings between Windows (`CR LF`), Unix (`LF`), and old Macintosh (`CR`) values; these operations affect all of the lines of the current file
     * If your file has mixed line endings (some `CR LF` and some `LF`, for example), you can use this menu to fix it: if the desired line-ending is not greyed out, you can just select it, and any mixed line-endings will be converted to the chosen line ending; if the desired line-ending is greyed out, select one of the other line-endings, then switch back to the desired line-ending selection, and any mixed line-endings will be converted to the final line-ending choice.
-* **Blank Operations >** ⇒ submenu with actions that trim or convert spaces and tab characters on ALL lines of the current file.
+* **Blank Operations >** ⇒ submenu with actions that trim or convert spaces and tab characters.
+    * _NOTE: All the **Blank Operations** commands will default to doing a global change through the whole document.  Starting in Notepad++ v8.4.9, if there is a single active stream selection, the **Blank Operation** change will only apply to the selected text; if there is a multi-stream selection, then only the last selection added to the multi-stream (the "main selection") will be affected; if there is a column-mode selection, no trimming or tab-conversion will occur._
     * **Trim Trailing Space**: removes any space or tab characters occurring at the end of a line, after any non-whitespace characters
     * **Trim Leading Space**: removes any space or tab characters occurring at the beginning of a line, before any non-whitespace characters
     * **Trim Leading and Trailing Spaces**: combines the functionalities of **Trim Trailing Space** and **Trim Leading Space** into one command
     * **EOL to Space**: replaces line-ending characters with a single space character (similar to **Join Lines** functionality, but acts upon the entire file rather than the active selection); note: "EOL" means "End Of Line" -- in other words, line-ending characters
-    * **Remove Unnecessary Blank and EOL**: performs a combined **Trim Leading and Trailing Spaces** and **EOL to Space** operation
-
+    * **Trim Both and EOL to Space**: performs a combined **Trim Leading and Trailing Spaces** and **EOL to Space** operation (known as **Remove Unnecessary Blank and EOL** before v8.4.9; the newer phrase **Trim Both** is shorthand for **Trim Both Leading and Trailing Spaces**)
+        - Note about Trim-related commands: the trim occurs for the line of the selection, even if the selection doesn't include those leading and/or trailing spaces.  _Example:_ if the line is some spaces, the text `words here`, and some more spaces, then even if the selection is just `words`, the trims will happen on the leading and/or trailing spaces, based on which menu command was chosen.
     * **TAB to Space**: replaces any tab characters with their equivalent number of spaces
     * **Space to TAB (All)**: consolidates space characters into an equivalent number of tab characters, wherever the spaces occur
     * **Space to TAB (Leading)**: consolidates space characters into an equivalent number of tab characters, but only where they occur before the first non-whitespace character on a line
-        - NOTE about TAB-related commands: the "equivalent number" of spaces (or tab characters) is based on the [**Settings > Preferences > Language > Tab Settings > Tab Size**](../preferences/#language) for the active language of the current file, and will be enough spaces to take you to the next "tab stop".
+        - Note about TAB-related commands: the "equivalent number" of spaces (or tab characters) is based on the [**Settings > Preferences > Language > Tab Settings > Tab Size**](../preferences/#language) for the active language of the current file, and will be enough spaces to take you to the next "tab stop".
 
             If the current language has a tab setting of 4 spaces per tab, then the tab stops are at 1, 5, 9, 13, and so on.
 
@@ -301,16 +360,15 @@ Below the **Begin/End Select** entries, there are a number of sub-menus to the *
             ![](../images/edit-tab-stops.png)
 
             If you want a specific number of space characters to replace each tab character, instead of the above-described fill-to-tabstop behavior, you should use a replacement operation in Extended or Regular Expression search mode to replace `\t` with the number of space characters you desire.
-    * NOTE: All the **Blank Operations** commands will default to doing a global change through the whole document.  Starting in Notepad++ v8.4.9, if there is an active selection, the **Blank Operation** change will only apply to the selected text.
 
 * **Paste Special >** ⇒ submenu with actions that pastes HTML or RTF, and special versions of copy/cut/paste which handle NULL and other binary characters
     * Note: The HTML and RTF actions paste the HTML and RTF source code from the HTML or RTF entries in the Windows Clipboard; it does _not_ apply HTML or RTF formatting to what appears to be plain text in the Notepad++ editor window.
 * **On Selection >** ⇒ submenu with actions that use the currently-selected text as a filename or folder to open, or as a term for an internet search.  (Custom commands using the current selection can be added to the **Run** menu, using the [`<UserDefinedCommands>` section of `shortcuts.xml`](../config-files/#userdefinedcommands).)
-* **Multi-Select All >** ⇒ submenu with actions that work with the current selection or word under the caret
-    - **Ignore Case & Whole Word** ⇒ If nothing is selected, it will determine the current word under the caret, and do a Multi-Select which finds all matches which match that string regardless of case, and regardless of whether the other matches are a whole word or not.  If a word or string is selected, it will Multi-Select all the strings which match the current selection.
-    - **Match Case Only** ⇒ If nothing is selected, it will determine the current word under the caret, and do a Multi-Select which finds all matches of that word, as long as the case exactly matches.  If a word or substring is selected, it will Multi-Select all the strings which match that selection, paying attention to case.
-    - **Whole Word Only** ⇒ If nothing is selected, it will determine the current word under the caret, and do a Multi-Select which finds all whole-word matches, regardless of case.  If a word is selected, it will Multi-Select all the whole-words which match that selection, ignoring case.
-    - **Match Case & Whole Word** ⇒ If nothing is selected, it will determine the current word under the caret, and do a Multi-Select which finds all whole-word matches which match that string, including case.  If a word is selected, it will do a Multi-Select which finds all whole-word matches which match that string, including case.
+* **Multi-Select All >** ⇒ submenu with actions that work with the current selection or word under the [caret](#caret-and-cursor "typing/insertion cursor")
+    - **Ignore Case & Whole Word** ⇒ If nothing is selected, it will determine the current word under the [caret](#caret-and-cursor "typing/insertion cursor"), and do a Multi-Select which finds all matches which match that string regardless of case, and regardless of whether the other matches are a whole word or not.  If a word or string is selected, it will Multi-Select all the strings which match the current selection.
+    - **Match Case Only** ⇒ If nothing is selected, it will determine the current word under the [caret](#caret-and-cursor "typing/insertion cursor"), and do a Multi-Select which finds all matches of that word, as long as the case exactly matches.  If a word or substring is selected, it will Multi-Select all the strings which match that selection, paying attention to case.
+    - **Whole Word Only** ⇒ If nothing is selected, it will determine the current word under the [caret](#caret-and-cursor "typing/insertion cursor"), and do a Multi-Select which finds all whole-word matches, regardless of case.  If a word is selected, it will Multi-Select all the whole-words which match that selection, ignoring case.
+    - **Match Case & Whole Word** ⇒ If nothing is selected, it will determine the current word under the [caret](#caret-and-cursor "typing/insertion cursor"), and do a Multi-Select which finds all whole-word matches which match that string, including case.  If a word is selected, it will do a Multi-Select which finds all whole-word matches which match that string, including case.
 * **Multi-Select Next >** ⇒ submenu with actions that add one more instance to the current multi-select
     - Each submenu entry will be analogous to the **Multi-Select All** described above, but will only add a single match to the Multi-Selection (the next to occur after the current selection), rather than all matches.
 * **Undo the Latest Added Multi-Select** ⇒ If you have a Multi-Selection active, this command will take out the most-recently added substring.  (For example, if you had the text `the quick brown fox jumped over the lazy dog` and Multi-Selected `quick` then `dog`, then ran this command, your selection would only include `quick`.)

@@ -58,7 +58,7 @@ When you use the installer to upgrade your existing copy of Notepad++ (either ma
 
 However, this means that occasionally, updated functionList parsing files, or theme definitions, or new keywords in `langs.xml`, or new default contextMenu entries, or new shortcut entries might not be added to your local copy of Notepad++. So if you upgrade and keep your existing configuration, it is a good idea to occasionally compare your configuration files to the "standard/default" configuration files: some of the config files come with `*.model.xml` versions in the installation directory, which show you the default settings for those files; for other configuration files, you could [download](https://notepad-plus-plus.org/downloads/) a portable zipfile of the same version you are using, and compare the config files from the portable to your installed; and you can always look in the [source code repository](https://github.com/notepad-plus-plus/notepad-plus-plus/) for the various configuration files. (You can use two [Views](../views/) to look at the files side-by-side, and the [synchronized scrolling feature](../views/#synchronized-scrolling) can help keep the copies aligned; plugins such as the Compare plugin are designed to show differences between files as well.)
 
-For the `config.xml` (which contains the settings from the GUI's **Settings > Preferences** dialog), if Notepad++ has a setting that it doesn't find defined in your current `config.xml`, it will apply the default value compiled in the program, and the next time it writes `config.xml` it will write that default value in `config.xml`. Once it gets written, future changes to that default value will not override the value already in your file, even when you upgrade Notepad++. `config.xml` will only get a default value for a setting in three situations: 
+For the `config.xml` (which contains the settings from the GUI's **Settings > Preferences** dialog), if Notepad++ has a setting that it doesn't find defined in your current `config.xml`, it will apply the default value compiled in the program, and the next time it writes `config.xml` it will write that default value in `config.xml`. Once it gets written, future changes to that default value will not override the value already in your file, even when you upgrade Notepad++. `config.xml` will only get a default value for a setting in three situations:
 
 1. On a new installation (running the installer when there isn't a previous Notepad++, or when there isn't a `config.xml` file and/or settings directory for the active user).
 2. When you run Notepad++, and there is no `config.xml` (either because there isn't a `config.xml` file and/or settings file for the current user, or the `config.xml` has been deleted), so Notepad++ writes a complete `config.xml` with all default values.
@@ -142,7 +142,7 @@ All the types of commands in `shortcuts.xml` have a `key` attribute, which uses 
 
 When not empty, this node is made of `<Macro>` nodes, each of which represents an individual macro. Each `<Macro>` holds a non-empty list of `<Action>` tags which represent individual macro steps. These steps are either Scintilla commands or Notepad++ commands, not raw keystrokes. For more details on macro recording, see [Macros](../macros/).
 
-**Attributes for the `<Macro>` node**
+#### Attributes for the `<Macro>` node
 
 Position | Name | Value format | Meaning
 :--------|:-----|:-------------|:---
@@ -157,19 +157,18 @@ _Note_: FolderName can only be entered by hand-editing the `shortcuts.xml` file;
 
 Although it is possible for several macros to share the same name or shortcut, this practice is highly discouraged.
 
-**Attributes for the `<Action>` tag**
+#### Attributes for the `<Action>` tag
 
-
-Position | Name | Value format | Meaning
-:--------|:-----|:-------------|:---
-1  | type  |  integer  | `0` for Scintilla messages that do not pass a string as second parameter
-   |       |           | `1` for Scintilla messages that pass a string as second parameter
-   |       |           | `2` for Notepad++ defined commands
-   |       |           | `3` for search and replace recording
-2  | message  |  integer  | `0` if `type=2`, otherwise use the message id
-3  | wParam  |  integer  |  Command id when `type=2` or `type=3`, else actual first parameter of the message. Use `0` if the message or command doesn't require a wParam.
-4  | lParam  |  integer |  `0` unless `type=0` and the second parameter of the message is actually used, or scalar value used when `type=3`.
-5  | sParam  |  string  |  `""` unless `type=1` or `type=3`, in which case this is the string pointed by the second parameter of the message.
+|Position | Name    | Value format | Meaning
+|:--------|:--------|:-------------|:---
+| 1       | type    |  integer     | `0` for Scintilla messages that do not pass a string as second parameter
+|         |         |              | `1` for Scintilla messages that pass a string as second parameter
+|         |         |              | `2` for Notepad++ defined commands
+|         |         |              | `3` for search and replace recording
+| 2       | message |  integer     | `0` if `type=2`, otherwise use the message id
+| 3       | wParam  |  integer     | Command id when `type=2` or `type=3`, else actual first parameter of the message. Use `0` if the message or command doesn't require a wParam.
+| 4       | lParam  |  integer     | `0` unless `type=0` and the second parameter of the message is actually used, or scalar value used when `type=3`.
+| 5       | sParam  |  string      | `""` unless `type=1` or `type=3`, in which case this is the string pointed by the second parameter of the message.
 
 The full list of Scintilla messages for `type=0` and `type=1` Scintilla messages, as well as a concise documentation, can be found in [Scintilla.iface](https://github.com/notepad-plus-plus/notepad-plus-plus/blob/master/scintilla/include/Scintilla.iface). More details on those messages can be found in the [Scintilla Docs](https://scintilla.org/ScintillaDoc.html). You can use any Scintilla message that does not return a value, that passes an integer in `wParam`, and uses either an integer or string in `lParam`. There are some messages that require strings in the `wParam`, or various data structures in one or both parameters: those will not work in a macro. (For more on the messaging system, see [Plugin Communication](../plugin-communication/).)
 
@@ -187,14 +186,14 @@ When not empty, this node contains `<Command>` tags, which have the command stri
 **Attributes for the `<Command>` tag**
 
 
-Position | Name | Value format | Meaning
-:--------|:-----|:-------------|:---
-1  |  name  |  string  |  The name of the Run command.
-2  |  Ctrl  |  "yes"/"no"  |  The key mapped to has the Control modifier
-3  |  Alt  |  "yes"/"no"  |  The key mapped to has the Alt modifier
-4  |  Shift  |  "yes"/"no"  |  The key mapped to has the Shift modifier
-5  |  Key  |  integer  |  The base virtual key number, in the 1 - 255 range
-6  | FolderName | string | Can be used to group one or more Run menu entries into a named sub-menu (new to v8.4.8)
+| Position | Name | Value format | Meaning
+|:--------|:-----|:-------------|:---
+| 1  |  name  |  string  |  The name of the Run command.
+| 2  |  Ctrl  |  "yes"/"no"  |  The key mapped to has the Control modifier
+| 3  |  Alt  |  "yes"/"no"  |  The key mapped to has the Alt modifier
+| 4  |  Shift  |  "yes"/"no"  |  The key mapped to has the Shift modifier
+| 5  |  Key  |  integer  |  The base virtual key number, in the 1 - 255 range
+| 6  | FolderName | string | Can be used to group one or more Run menu entries into a named sub-menu (new to v8.4.8)
 
 _Note_: FolderName can only be entered by hand-editing the `shortcuts.xml` file; it is not available in the Shortcut Mapper or any other GUI element.
 
@@ -202,21 +201,23 @@ Although it is possible for several commands to have the same name, this is conf
 
 The run command may contain any valid command for the <abbr title="Operating System: Generally Windows. If you use Notepad++ in a Linux WINE environment or similar, could you create a pull request clarifying whether it's windows-style command syntax or linux-style command syntax.">Windows OS</abbr>. If you use a command that can be found in your PATH (like `cmd.exe`), then you don't need to specify the full path to the command. If it's not in your path, then you _should_ specify the full path. Note that Windows will launch your default browser if you put a URL in this. If the command, or one of its arguments, has an embedded space, then put quotes around it (like you would for any command line environment). For example, `<Command name="Run Putty" ... >"c:\program files\putty\putty.exe" -ssh -load "my session"</Command>` shows the quotes around the executable and one of the arguments, because both have spaces.  (That same command in the **Run**-menu's **Run...** action dialog would need to be `"c:\program files\putty\putty.exe" -ssh -load "my session"` to encapsulate all the paths with spaces inside double-quotes.)
 
-There are a number of Notepad++-specific variables available, which are accessed in the form `$(VARIABLE_NAME)`, which can be used to supply portions of the command entry (whether creating the command in the `shortcuts.xml` or through the **Run > Run...** entry).
+#### Variables for Run Commands
 
-Variable            | Description                       | Example
---------------------|:---                               |:---
-FULL_CURRENT_PATH   | The full path to the active file  | `E:\My Web\main\welcome.html`
-CURRENT_DIRECTORY   | The active file's directory       | `E:\My Web\main`
-FILE_NAME           | The active file's name            | `welcome.html`
-NAME_PART           | The filename without extension    | `welcome`
-EXT_PART            | The extension (with the `.`)      | `.html`
-CURRENT_WORD        | the active selection in Notepad++, or the word under the caret |
-CURRENT_LINE        | the line number where the caret is currently located in the editor window | `1`
-CURRENT_LINESTR     | the text of the current line (added v8.3.2)  | `The quick brown fox jumps over the lazy dog`
-CURRENT_COLUMN      | the column number where the caret is currently located in the editor window | `5`
-NPP_DIRECTORY       | the directory where the `notepad++.exe` executable is located | `c:\Program Files\notepad++`
-NPP_FULL_FILE_PATH  | the full path to the `notepad++.exe` | `c:\Program Files\notepad++\notepad++.exe`
+There are a number of Notepad++-specific variables available for Run commands, which are accessed in the form `$(VARIABLE_NAME)`, which can be used to supply portions of the command entry (whether creating the command in the `shortcuts.xml` or through the **Run > Run...** entry).
+
+| Variable            | Description                       | Example
+|:--------------------|:---                               |:---
+| FULL_CURRENT_PATH   | The full path to the active file  | `E:\My Web\main\welcome.html`
+| CURRENT_DIRECTORY   | The active file's directory       | `E:\My Web\main`
+| FILE_NAME           | The active file's name            | `welcome.html`
+| NAME_PART           | The filename without extension    | `welcome`
+| EXT_PART            | The extension (with the `.`)      | `.html`
+| CURRENT_WORD        | the active selection in Notepad++, or the word under the [caret](#caret-and-cursor "typing/insertion cursor") |
+| CURRENT_LINE        | the line number where the [caret](#caret-and-cursor "typing/insertion cursor") is currently located in the editor window | `1`
+| CURRENT_LINESTR     | the text of the current line (added v8.3.2)  | `The quick brown fox jumps over the lazy dog`
+| CURRENT_COLUMN      | the column number where the [caret](#caret-and-cursor "typing/insertion cursor") is currently located in the editor window | `5`
+| NPP_DIRECTORY       | the directory where the `notepad++.exe` executable is located | `c:\Program Files\notepad++`
+| NPP_FULL_FILE_PATH  | the full path to the `notepad++.exe` | `c:\Program Files\notepad++\notepad++.exe`
 
 If the variable contains one or more space characters in the path, like `$(FULL_CURRENT_PATH)` being `C:\Path With Spaces\Goes\Here.txt`, then you should include quotes around the variable, like `"c:\Program Files\App Name\blah.exe" "$(FULL_CURRENT_PATH)"`
 
@@ -259,11 +260,18 @@ Position | Name | Value format | Meaning
 :--------|:-----|:-------------|:---
 1  |  name  |  string  |  The name of the language.
 2  |  ext  |  string  |  The list of file extensions associated to this language by default. Lists are space separated, without leading periods.
-3  |  commentLine  |  string  |  The character(s) that prelude a comment extending to the end of the physical line. Use "" if the feature is not supported.
-4  |  commentStart  |  string  |  The character(s) that start a block comment. Use "" if the feature is not supported.
-5  |  commentEnd  |  string  |  The character(s) that end a block comment. Use "" if the feature is not supported.
-6  |  exclude  |  "yes"/"no"  |  Set to yes" to remove from the Language menu, else "no" or no attribute.
-7  |  tabSettings  |  integer  |  If present, the value encodes the number of spaces a tab is equivalent to: value + 128 if the Replace tabs vy spaces is checked, else raw value. The default value of 4 is used if attribute is absent.
+3  |  commentLine  |  string  |  The character(s) that prelude a comment extending to the end of the physical line when using the **[Edit > Comment/Uncomment](https://npp-user-manual.org/docs/editing/#edit-menu:~:text=columns%20is%20different.-,Comment/Uncomment,-%3E%20%E2%87%92%20submenu%20with) > Single line** actions. Set to "" if single-line comments are not supported for the current Language.
+4  |  commentStart  |  string  |  The character(s) that start a block comment when using the **[Edit > Comment/Uncomment](https://npp-user-manual.org/docs/editing/#edit-menu:~:text=columns%20is%20different.-,Comment/Uncomment,-%3E%20%E2%87%92%20submenu%20with) > Block Comment/Uncomment** actions. Set to "" if block comments are not supported for the current Language.
+5  |  commentEnd  |  string  |  The character(s) that end a block comment when using the **[Edit > Comment/Uncomment](https://npp-user-manual.org/docs/editing/#edit-menu:~:text=columns%20is%20different.-,Comment/Uncomment,-%3E%20%E2%87%92%20submenu%20with) > Block Comment/Uncomment** actions. Set to "" if block comments are not supported for the current Language.
+6  |  exclude  |  `"yes"`/`"no"`  |  Set to `"yes"` to hide this Language from the Language menu; otherwise, set to `"no"` or don't include this attribute.  Reflects the **[Settings > Preferences > Language](../preferences/#language)** having the Language in the **Disabled** list (`"yes"`) vs **Available** list (`"no"`).
+7  |  tabSettings  |  integer  |  If present, the attribute value encodes the number of spaces a tab is equivalent to, reflecting **[Settings > Preferences > Indentation](../preferences/#indentation) > Indent Settings** for the active language. (More on this attribute, below)
+8  |  backspaceUnindent | `"yes"`/`"no"` | If present, reflects the state of the **[Settings > Preferences > Indentation](../preferences/#indentation) > Indent Settings > `☐ Backspace key unindents...`** checkbox.  (New to v8.6.9)
+
+The value used in the `tabSettings` attribute value depends on the **[Settings > Preferences > Indentation](../preferences/#indentation) > Indent Settings**:
+- If it is set to use `☑ Tab character`, then the value stored in this XML attribute is the same as in the preference's **Indent Size** value.
+- If it is set to use `☑ Space character(s)`, then the value stored in this XML attribute is 128 higher than the preference's **Indent Size** value (so a value of `4` in the preference dialog would be stored here as `tabSettings="132"`).
+- If it is set to use `☑ Use Default Value`, then this attribute will be `tabSettings="-1"`.
+- If this `<Language...>` entry is missing the `tabSettings` attribute, it will behave as if it had `tabSettings="-1"`.
 
 Inside each of the languages, you _could_ add keywords. However, it's better to use [**Settings > Style Configurator**](../preferences/#style-configurator) and make use of the user-defined keywords box for a given category (when available). These user-defined keywords are stored in [`stylers.xml`](#highlighting-schemes-stylers-xml) (described below).
 
@@ -311,7 +319,7 @@ If 2 above lines are in *overrideMap.xml*, function list will load your parsers 
 ```
 <association id= "krl.xml"				userDefinedLangName="KRL"/>
 ```
-Here you define a parser rule file name for your KRL UDL. While you open a file which is recognized as KRL file, then function list engin will load `functionList\krl.xml` to show the KRL function list. If you have no KRL UDL defined in your Notepad++, you have to define a dummy one (with the name "KRL") to make it work.
+Here you define a parser rule file name for your KRL UDL. When you open a file which is recognized as a KRL file, then the function list engine will load `functionList\krl.xml` to show the KRL function list. If you have no KRL UDL defined in your Notepad++, you have to define a dummy one (with the name "KRL") to make it work.
 
 The `functionList\`_languagename_`.xml` parser file itself, whether it's for a builtin language or a UDL-based language, requires the structure `<NotepadPlus><functionList><parser...>...</parser></functionList></NotepadPlus>`, where the attributes and contents of the `<parser>` are described in the documents section about [How to Customize Function List](../function-list/#how-to-customize-function-list). You can look at any of the [default parser files](https://github.com/notepad-plus-plus/notepad-plus-plus/blob/master/PowerEditor/installer/functionList/) for examples of working Function List configurations.
 
@@ -329,7 +337,7 @@ If you previously had a v7.9-or-earlier style function list entry in `functionLi
 3. Copy the `<association...>` tag from the old `functionList.xml` to the `functionList\overrideMap.xml`, and place near the end of the `<associationMap>` section. Make sure it follows the rules for modern `<association>` tag syntax
 4. Open the `functionList\blah.xml` for your particular language
    - If you don't have `blah.xml` yet, copy another language's XML file from the most-recent Notepad++ version to `blah.xml`, and remove the whole `<parser...> ... </parser>` section
-5. Copy the `<parer...>...</parser>` section from the old `functionList.xml` to the `functionList\blah.xml`
+5. Copy the `<parser...>...</parser>` section from the old `functionList.xml` to the `functionList\blah.xml`
    - Please note that the `blah.xml` should _not_ contain a `<parsers>` section, _just_ the `<parser>` section. It will cause problems with the Function List if you wrap it in the `<parsers>...</parsers>` block. Make sure it ends up with the structure described above.
 
 ## Toolbar Icon Customization: `toolbarIcons.xml`
@@ -425,7 +433,7 @@ You can have multiple icon set directories; to switch between icon sets, you jus
 
 - `noColumnToMultiSelect.xml`: This is a zero-byte file that is used as an indicator to Notepad++ to not enable the [column-mode to multi-edit conversion](../editing/#multi-editing) feature (new to v8.6.1).  This file needs to be in `%AppData%\Notepad++\` for a normal installation and in the portable directory for a local configuration.  Starting in v8.6.3, this zero-byte file was replaced by [**Settings > Preferences > Editing 2 > ☐ Enable Column Selection to Multi-Editing**](../preferences/#editing-2); if you used `noColumnToMultiSelect.xml` in v8.6.1-v8.6.2, to maintain the same behavior, you will need to make sure the new setting is not checkmarked; as of v8.6.3, this file is ignored and does nothing.
 
-- `noEasterEggs.xml`: This is a zero-byte file that is used as an indicator to `notepad++.exe` to not show the "Easter Eggs" in the **About Notepad++** dialog (accessed from the **?** menu or the default keyboard shortcut <kbd>F1</kbd>). This config file _must_ go in the Notepad++ installation folder; it will not be recognized in the `%AppData%\Notepad++` hierarchy or in the cloud settings folder.
+- `noEasterEggs.xml`: This is a zero-byte file that is used as an indicator to `notepad++.exe` to not show the "Easter Eggs" when trying to access the **About Notepad++** dialog (accessed from the **?** menu or the default keyboard shortcut <kbd>F1</kbd>). This config file _must_ go in the Notepad++ installation folder; it will not be recognized in the `%AppData%\Notepad++` hierarchy or in the cloud settings folder.  You can find out more about the Easter Eggs in the [Command Line Options](../command-prompt/) and [Ghost Typing](../ghost-typing/) descriptions.
 
 - `noRestartAutomatically.xml`: Starting in Notepad++ v8.5.8, Notepad++ is a [Restarable App](../other-resources/#restartable-app).  If you would like to _disable_ Notepad++ from being restartable, add an empty config file called `noRestartAutomatically.xml` into `%APPDATA%\Notepad++\` (for normal installations) or the Notepad++ installation directory (for other configuration settings).  If that file exists, and you'd like Notepad++ to be restartable again, just delete that file.
 
@@ -451,4 +459,4 @@ You can have multiple icon set directories; to switch between icon sets, you jus
 
 ## Validating Config-File XML
 
-If you are developing a config file by editing the raw XML file and would like to be able to validate that you have correct XML syntax while you are doing so, you can see the instructions in the [Notepad++ Community "Validating Config-File XML" FAQ](https://community.notepad-plus-plus.org/topic/24136/faq-desk-validating-config-file-xml "Community Forum FAQ Desk: Validating Config-File XML).
+If you are developing a config file by editing the raw XML file and would like to be able to validate that you have correct XML syntax while you are doing so, you can see the instructions in the [Notepad++ Community "Validating Config-File XML" FAQ](https://community.notepad-plus-plus.org/topic/24136/faq-desk-validating-config-file-xml "Community Forum FAQ Desk: Validating Config-File XML").

@@ -84,7 +84,7 @@ code | file
 `it`, `it-ch` | `italian.xml`
 `ja` | `japanese.xml`
 `ka` | `georgian.xml`
-`keb` | `kabyle.xml`
+`kab` | `kabyle.xml` (spelling fixed to `kab` in v8.7.5; must use `keb` instead of `kab` in v8.7.4 and earlier)
 `kk` | `kazakh.xml`
 `kn` | `kannada.xml`
 `ko`, `ko-kp`, `ko-kr` | `korean.xml`
@@ -147,7 +147,7 @@ code | file
 * `-nosession`: Launch Notepad++ without previous session.
 * `-notabbar`: Launch Notepad++ without tabbar.
 * `-ro`: Make the `filepath` read only.
-* `-systemtray`: Launch Notepad++ directly in system tray.
+* `-systemtray`: Launch Notepad++ directly in [system tray](../user-interface/#system-tray).
 * `-loadingTime`: Display Notepad++ loading time.
     - Starting in v8.6.1, it shows millisecond precision using the `##:##:##.###` (hour:minute:second.millisecond) format.  It separates the loading time into Notepad++ initialization, plugins loading time, session loading time, command-line-parameter parsing time, and the total loading time.
     - In v8.6 or earlier, it just showed the total number of seconds for Notepad++ to load, without millisecond precision and without the listing of the times for individual loading stages.
@@ -193,7 +193,7 @@ usage list.  These are intended for advanced usage or other special circumstance
 
 ## Installer Options
 
-The Notepad++ [installer executable](../getting-started/#installer) accepts the [three NSIS command-line options](https://nsis.sourceforge.io/Which_command_line_parameters_can_be_used_to_configure_installers):
+The Notepad++ [installer executable](../getting-started/#install-notepad-using-the-installer) accepts the [three NSIS command-line options](https://nsis.sourceforge.io/Which_command_line_parameters_can_be_used_to_configure_installers):
 
 - `/S` : Enables silent installation.
 - `/NCRC`: Skips the installer's CRC check.
@@ -201,8 +201,14 @@ The Notepad++ [installer executable](../getting-started/#installer) accepts the 
     - Do _not_ put quotes around the path, even when there are spaces.
     - Because it allows spaces in the path, this option **must** be the last argument on the installer command line, if included.
 
-It also implements an additional option:
+It also implements additional Notepad++\-specific options:
 
 - `/noUpdater`: Disables the N++ inherent automatic updates (it does not install the WinGUP & PluginsAdmin updating components).
+- `/closeRunningNpp`: Will (try to) close existing Notepad++ before installing the new version.  (New to v8.6.9.)
+    - It will first try a "nice" close request (using [WM_CLOSE](https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-close)).
+    - If the "nice" request wasn't successful after 5 seconds, it will kill the underlying process.
+    - If Notepad++ has multiple instances opened, it will close all instances.
+- `/runNppAfterSilentInstall`: After a silent install, it will automatically run the newly-installed Notepad++. (New to v8.6.9.)
+    - Only works if `/S` is also specified.
 
 *Note* : The installer options are case sensitive: `/S` will do a silent installation, whereas `/s` will _not_.

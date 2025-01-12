@@ -12,17 +12,35 @@ If you used installation package when you originally installed, the Auto Update 
 ## Upgrade On-Demand
 Using the **? > Update Notepad++** menu command. This will check whether there is a new version and whether the safety delay is over. If so, you are presented with the opportunity to download and install the newer version.
 
+### Updater Dialog
+
+The Updater dialog is launched for either Auto-Trigger or for Upgrade On-Demand.
+
+If there is no auto-triggered update available, the dialog will just inform you of this (but see [No New Version Found](#no-new-version-found-safety-delay)).
+
+If there is a new version, the Updater dialog will allow you to choose:
+- **Yes**: Run the update.
+    - It will download the updater, ask if it's okay to close Notepad++, and the updater will run, asking you to confirm your settings, and update Notepad++.
+- **Yes (Silent)**: Run a truly-silent upgrade of Notepad++.  (New to v8.6.9.)
+    - It will close the running Notepad++ (and all instances in multi-instance mode), do the update (without requiring clicking all the **Next** buttons to keep the same installed-options as you already have), and automatically run an instance of the updated Notepad++ -- so a true "upgrade and continue" experience.
+- **No**: Don't run the installer at this time.
+- **Never**: Don't run the installer at this time, and don't ask again in the future.
+    - See also: [**Settings > Preferences > MISC** > ☐ Enable Notepad++ auto-updater](../preferences/#misc)
+
+
 ## Upgrade Manually
 Going to the main website and downloading the latest installer and running it yourself.  You can watch the [Announcements](https://community.notepad-plus-plus.org/category/1/announcements) category in the [Notepad++ Community Forum](https://community.notepad-plus-plus.org/) to see when new release-candidates or final versions are released.
 
+<a name="new-version-available-but-auto-updater-find-nothing" reasonLink="https://github.com/notepad-plus-plus/wingup/blob/21e375caf17360fb86f757612052d5a785261d96/src/winmain.cpp#L780" reasonDesc="wingup links to this anchor, so it needs to always exist, even though the safety-delay header has been rephrased"></a>
 ## No New Version Found: Safety Delay
+
 There are two reasons that would cause there to be no new version found during an auto-triggered upgrade check or an on-demand upgrade check:
 
 First, there might not be a new version.
 
 Second, if there is a new version available, it may not have been triggered for auto-update yet. In order to avoid to spreading a new version which contains regressions or critical bugs, we wait for users' feedback before triggering the auto-update, often one to two weeks.  If a critical bug or regression is found, the auto-update will _not_ be triggered for that release. On the other hand, after a reasonable delay, if we are confident there are no critical issues, the auto-update will be triggered.  This safety delay prevents bad bugs or regressions from being widely spread throughout the Notepad++ user-base, limiting the exposure to those users who are watching for release announcements and are willing to manually upgrade Notepad++.
 
-The safety delay will never prevent you from downloading the installer or portable zip package yourself.
+The safety delay will never prevent you from downloading the installer or portable zip package yourself by [downloading and upgrading manually](#upgrade-manually).
 
 ## WinGUp Project
 The [WinGUp](http://wingup.org/) project was started for the need of Notepad++ for upgrading Notepad++ automatically.  It has since become a more generic solution for updating purposes. [This project has been forked](https://github.com/notepad-plus-plus/wingup) for more Notepad++ specific need so Plugin Admin can share its basic functionalities.
